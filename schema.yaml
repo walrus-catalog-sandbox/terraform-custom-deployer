@@ -52,6 +52,10 @@ components:
           default: {}
           properties:
             runtime_source:
+              description: | 
+                Specify the runtime source for deploying.
+                The runtime source is a collection of script files, which implements the courier's interface.
+                More details, please refer to https://registry.terraform.io/providers/seal-io/courier/latest/docs/data-sources/runtime#source.
               title: Runtime Source
               type: string
           x-walrus-ui:
@@ -69,6 +73,8 @@ components:
             rolling:
               properties:
                 max_surge:
+                  description: |
+                    The maximum percent of targets to deploy at once. The value must be range between 0 to 1.
                   default: 0.25
                   title: Max Surge
                   type: number
@@ -76,10 +82,15 @@ components:
               type: object
               x-walrus-ui:
                 colSpan: 12
+                order: 2
             timeout:
+              description: | 
+                Specify the maximum time in seconds for a deployment to make progress before it is considered to be failed.
               default: 300
               title: Timeout
               type: number
+              x-walrus-ui:
+                order: 1
           x-walrus-ui:
             colSpan: 12
             group: Basic
@@ -112,6 +123,8 @@ components:
           - authn
           properties:
             addresses:
+              description: | 
+                Specify the address list of target, which must be reachable.
               items:
                 type: string
               title: Addresses
@@ -122,17 +135,26 @@ components:
             authn:
               properties:
                 mode:
+                  description: |
+                    Specify the authentication mode for connecting to target, select from ssh or winrm.
                   default: ssh
                   title: Mode
                   type: string
+                  enum:
+                  - ssh
+                  - winrm
                   x-walrus-ui:
                     order: 1
                 secert:
+                  description: |
+                    Specify the secert for connecting to target, either password or private key.
                   title: Secert
                   type: string
                   x-walrus-ui:
                     order: 3
                 user:
+                  description: |
+                    Specify the user for connecting to target.
                   title: User
                   type: string
                   x-walrus-ui:
@@ -146,33 +168,50 @@ components:
                 colSpan: 12
                 order: 3
             insecure:
+              description: |
+                Specify whether to skip TLS/Hostname verification when connecting to target.
               default: false
               title: Insecure
               type: boolean
               x-walrus-ui:
                 order: 2
             proxies:
+              description: |
+                Configure bastion hosts or http proxies here.
               items:
                 properties:
                   address:
+                    description: |
+                      Specify the address of proxy, which must be reachable.
                     title: Address
                     type: string
                     x-walrus-ui:
                       order: 1
                   authn:
+                    description: |
+                      Specify the authentication information for connecting to proxy.
                     properties:
                       mode:
+                        description: |
+                          Specify the authentication mode for connecting to proxy, select from proxy or ssh.
                         default: proxy
                         title: Mode
                         type: string
+                        enum:
+                        - proxy
+                        - ssh
                         x-walrus-ui:
                           order: 1
                       secert:
+                        description: |
+                          Specify the secert for connecting to proxy, either password or private key.
                         title: Secert
                         type: string
                         x-walrus-ui:
                           order: 3
                       user:
+                        description: |
+                          Specify the user for connecting to proxy.
                         title: User
                         type: string
                         x-walrus-ui:
@@ -183,6 +222,8 @@ components:
                       colSpan: 12
                       order: 3
                   insecure:
+                    description: |
+                      Specify whether to skip TLS/Hostname verification when connecting to proxy.
                     default: false
                     title: Insecure
                     type: boolean
@@ -230,11 +271,15 @@ components:
           - refer
           properties:
             command:
+              description: |
+                Specify the command to execute.
               title: Command
               type: string
               x-walrus-ui:
                 order: 3
             envs:
+              description: |
+                Specify the environment variables.
               additionalProperties:
                 type: string
               title: Envs
@@ -243,6 +288,8 @@ components:
                 colSpan: 12
                 order: 4
             ports:
+              description: |
+                Specify the ports.
               items:
                 type: number
               title: Ports
@@ -253,23 +300,35 @@ components:
             refer:
               properties:
                 authn:
+                  description: |
+                    Specify the authentication information for pulling artifact.
                   properties:
                     mode:
+                      description: |
+                        Specify the authentication mode for pulling artifact, select from basic or bearer.
                       default: bearer
                       title: Mode
                       type: string
+                      enum:
+                      - bearer
+                      - basic
                       x-walrus-ui:
                         order: 1
                     secert:
+                      description: |
+                        Specify the secret for pulling artifact, either password or token.
                       title: Secert
                       type: string
                       x-walrus-ui:
                         order: 3
                     user:
+                      description: |
+                        Specify the user for pulling artifact.
                       title: User
                       type: string
                       x-walrus-ui:
                         order: 2
+                        showIf: mode=basic
                   required:
                   - secert
                   title: Authn
@@ -278,6 +337,8 @@ components:
                     colSpan: 12
                     order: 3
                 insecure:
+                  description: |
+                    Specify whether to skip TLS/Hostname verification when pulling artifact.
                   default: false
                   title: Insecure
                   type: boolean
@@ -296,6 +357,9 @@ components:
                 colSpan: 12
                 order: 2
             runtime_class:
+              description: |
+                Specify the runtime class for deploying.
+                The supported classes are determined by the corresponding runtime source.
               default: tomcat
               title: Runtime Class
               type: string
@@ -307,6 +371,8 @@ components:
                 colSpan: 12
                 order: 1
             volumes:
+              description: |
+                Specify the volumes.
               items:
                 type: string
               title: Volumes

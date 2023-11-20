@@ -134,7 +134,7 @@ artifact:
   command: string, optional
   ports: list(number), optional
   envs: map(string), optional
-  volumes: list(string), optional
+  volumes: list(string), optional      # used for docker runtime class
 ```
 ```
 EOF
