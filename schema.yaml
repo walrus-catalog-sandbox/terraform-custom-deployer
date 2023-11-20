@@ -1,0 +1,321 @@
+openapi: 3.0.3
+info:
+  title: OpenAPI schema for template terraform-custom-traditional-deployer
+components:
+  schemas:
+    variables:
+      required:
+      - artifact
+      - target
+      type: object
+      properties:
+        context:
+          title: Context
+          type: object
+          description: |
+            Receive contextual information. When Walrus deploys, Walrus will inject specific contextual information into this field.
+
+            Examples:
+            ```
+            context:
+              project:
+                name: string
+                id: string
+              environment:
+                name: string
+                id: string
+              resource:
+                name: string
+                id: string
+            ```
+          default: {}
+          additionalProperties:
+            type: object
+            x-walrus-ui:
+              colSpan: 12
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            hidden: true
+            order: 1
+        infrastructure:
+          title: Infrastructure
+          type: object
+          description: |
+            Specify the infrastructure information for deploying.
+
+            Examples:
+            ```
+            infrastructure:
+              runtime_source: string, optional
+            ```
+          default: {}
+          properties:
+            runtime_source:
+              title: Runtime Source
+              type: string
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 2
+        deployment:
+          title: Deployment
+          type: object
+          description: "Specify the deployment action, like scheduling, progress time
+            and so on.\n\nExamples:\n```\ndeployment:\n  timeout: number, optional\n
+            \ rolling: \n    max_surge: number, optional          # in fraction, i.e.
+            0.25, 0.5, 1\n```\n"
+          properties:
+            rolling:
+              properties:
+                max_surge:
+                  default: 0.25
+                  title: Max Surge
+                  type: number
+              title: Rolling
+              type: object
+              x-walrus-ui:
+                colSpan: 12
+            timeout:
+              default: 300
+              title: Timeout
+              type: number
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 3
+        target:
+          title: Target
+          type: object
+          description: |
+            Specify the target of deployment.
+
+            Examples:
+            ```
+            target:
+              addresses: list(string)
+              insecure: bool, optional
+              authn:
+                mode: ssh/winrm
+                user: string
+                secert: string
+              proxies:
+              - address: string
+                insecure: bool, optional
+                authn:
+                  mode: proxy/ssh
+                  user: string
+                  secert: string
+            ```
+          required:
+          - addresses
+          - authn
+          properties:
+            addresses:
+              items:
+                type: string
+              title: Addresses
+              type: array
+              x-walrus-ui:
+                colSpan: 12
+                order: 1
+            authn:
+              properties:
+                mode:
+                  default: ssh
+                  title: Mode
+                  type: string
+                  x-walrus-ui:
+                    order: 1
+                secert:
+                  title: Secert
+                  type: string
+                  x-walrus-ui:
+                    order: 3
+                user:
+                  title: User
+                  type: string
+                  x-walrus-ui:
+                    order: 2
+              required:
+              - secert
+              - user
+              title: Authn
+              type: object
+              x-walrus-ui:
+                colSpan: 12
+                order: 3
+            insecure:
+              default: false
+              title: Insecure
+              type: boolean
+              x-walrus-ui:
+                order: 2
+            proxies:
+              items:
+                properties:
+                  address:
+                    title: Address
+                    type: string
+                    x-walrus-ui:
+                      order: 1
+                  authn:
+                    properties:
+                      mode:
+                        default: proxy
+                        title: Mode
+                        type: string
+                        x-walrus-ui:
+                          order: 1
+                      secert:
+                        title: Secert
+                        type: string
+                        x-walrus-ui:
+                          order: 3
+                      user:
+                        title: User
+                        type: string
+                        x-walrus-ui:
+                          order: 2
+                    title: Authn
+                    type: object
+                    x-walrus-ui:
+                      colSpan: 12
+                      order: 3
+                  insecure:
+                    default: false
+                    title: Insecure
+                    type: boolean
+                    x-walrus-ui:
+                      order: 2
+                required:
+                - address
+                - authn
+                type: object
+                x-walrus-ui:
+                  colSpan: 12
+              title: Proxies
+              type: array
+              x-walrus-ui:
+                colSpan: 12
+                order: 4
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 4
+        artifact:
+          title: Artifact
+          type: object
+          description: |
+            Specify the artifact of deployment.
+
+            Examples:
+            ```
+            artifact:
+              runtime_class: string, optional
+              refer:
+                uri: string
+                insecure: bool, optional
+                authn:
+                  mode: bearer/basic
+                  user: string, optional
+                  secert: string
+              command: string, optional
+              ports: list(number), optional
+              envs: map(string), optional
+              volumes: list(string), optional
+            ```
+            ```
+          required:
+          - refer
+          properties:
+            command:
+              title: Command
+              type: string
+              x-walrus-ui:
+                order: 3
+            envs:
+              additionalProperties:
+                type: string
+              title: Envs
+              type: object
+              x-walrus-ui:
+                colSpan: 12
+                order: 4
+            ports:
+              items:
+                type: number
+              title: Ports
+              type: array
+              x-walrus-ui:
+                colSpan: 12
+                order: 5
+            refer:
+              properties:
+                authn:
+                  properties:
+                    mode:
+                      default: bearer
+                      title: Mode
+                      type: string
+                      x-walrus-ui:
+                        order: 1
+                    secert:
+                      title: Secert
+                      type: string
+                      x-walrus-ui:
+                        order: 3
+                    user:
+                      title: User
+                      type: string
+                      x-walrus-ui:
+                        order: 2
+                  required:
+                  - secert
+                  title: Authn
+                  type: object
+                  x-walrus-ui:
+                    colSpan: 12
+                    order: 3
+                insecure:
+                  default: false
+                  title: Insecure
+                  type: boolean
+                  x-walrus-ui:
+                    order: 2
+                uri:
+                  title: Uri
+                  type: string
+                  x-walrus-ui:
+                    order: 1
+              required:
+              - uri
+              title: Refer
+              type: object
+              x-walrus-ui:
+                colSpan: 12
+                order: 2
+            runtime_class:
+              default: tomcat
+              title: Runtime Class
+              type: string
+              enum:
+              - tomcat
+              - docker
+              - oepnjdk
+              x-walrus-ui:
+                colSpan: 12
+                order: 1
+            volumes:
+              items:
+                type: string
+              title: Volumes
+              type: array
+              x-walrus-ui:
+                colSpan: 12
+                order: 6
+                showIf: runtime_class=docker
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 5

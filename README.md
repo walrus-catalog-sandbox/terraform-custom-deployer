@@ -1,17 +1,45 @@
-# Awesome Walrus Template
+# Custom Traditional Deployer
 
-Start here to create an awesome Walrus template.
+Terraform module which delivers a Web Application artifact to the related Web Server by traditional deployment, powered by [Seal/Courier](https://registry.terraform.io/providers/seal-io/courier/latest).
 
 ## Usage
 
 ```hcl
+module "traditional-deployer" {
+  source = "..."
 
+  infrastructure = {
+    runtime_source = "https://github.com/seal-io/terraform-provider-courier//pkg/runtime/source_builtin"
+  }
+
+  deployment = {
+    rolling = {
+      max_surge = 0.25
+    }
+  }
+
+  target = {
+    addresses = [...]
+    authn = {
+      mode   = "ssh"
+      user   = "ansible"
+      secret = "ansible"  # either password or token.
+    }
+  }
+
+  artifact = {
+    runtime_class = "tomcat"
+    refer = {
+      uri = "https://tomcat.apache.org/tomcat-7.0-doc/appdev/sample/sample.war"
+      ports = [ 80 ]
+    }
+  }
+}
 ```
 
 ## Examples
 
-- ...
-- ...
+- [Multipass](./examples/multipass)
 
 ## Contributing
 
@@ -23,38 +51,43 @@ Please read our [contributing guide](./docs/CONTRIBUTING.md) if you're intereste
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
+| <a name="requirement_courier"></a> [courier](#requirement\_courier) | >= 0.0.7 |
 
 ## Providers
 
-No providers.
+| Name | Version |
+|------|---------|
+| <a name="provider_courier"></a> [courier](#provider\_courier) | >= 0.0.7 |
 
 ## Modules
 
-| Name | Source | Version |
-|------|--------|---------|
-| <a name="module_submodule"></a> [submodule](#module\_submodule) | ./modules/submodule | n/a |
+No modules.
 
 ## Resources
 
-No resources.
+| Name | Type |
+|------|------|
+| [courier_deployment.deployment](https://registry.terraform.io/providers/seal-io/courier/latest/docs/resources/deployment) | resource |
+| [courier_artifact.artifact](https://registry.terraform.io/providers/seal-io/courier/latest/docs/data-sources/artifact) | data source |
+| [courier_runtime.runtime](https://registry.terraform.io/providers/seal-io/courier/latest/docs/data-sources/runtime) | data source |
+| [courier_target.target](https://registry.terraform.io/providers/seal-io/courier/latest/docs/data-sources/target) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_context"></a> [context](#input\_context) | Receive contextual information. When Walrus deploys, Walrus will inject specific contextual information into this field.<br><br>Examples:<pre>context:<br>  project:<br>    name: string<br>    id: string<br>  environment:<br>    name: string<br>    id: string<br>  resource:<br>    name: string<br>    id: string</pre> | `map(any)` | `{}` | no |
+| <a name="input_infrastructure"></a> [infrastructure](#input\_infrastructure) | Specify the infrastructure information for deploying.<br><br>Examples:<pre>infrastructure:<br>  runtime_source: string, optional</pre> | <pre>object({<br>    runtime_source = optional(string, null)<br>  })</pre> | `{}` | no |
+| <a name="input_deployment"></a> [deployment](#input\_deployment) | Specify the deployment action, like scheduling, progress time and so on.<br><br>Examples:<pre>deployment:<br>  timeout: number, optional<br>  rolling: <br>    max_surge: number, optional          # in fraction, i.e. 0.25, 0.5, 1</pre> | <pre>object({<br>    timeout = optional(number, 300)<br>    rolling = optional(object({<br>      max_surge = optional(number, 0.25)<br>    }))<br>  })</pre> | <pre>{<br>  "rolling": {<br>    "max_surge": 0.25<br>  },<br>  "timeout": 300<br>}</pre> | no |
+| <a name="input_target"></a> [target](#input\_target) | Specify the target of deployment.<br><br>Examples:<pre>target:<br>  addresses: list(string)<br>  insecure: bool, optional<br>  authn:<br>    mode: ssh/winrm<br>    user: string<br>    secret: string<br>  proxies:<br>  - address: string<br>    insecure: bool, optional<br>    authn:<br>      mode: proxy/ssh<br>      user: string<br>      secret: string</pre> | <pre>object({<br>    addresses = list(string)<br>    insecure  = optional(bool, false)<br>    authn = object({<br>      mode   = optional(string, "ssh")<br>      user   = string<br>      secret = string<br>    })<br>    proxies = optional(list(object({<br>      address  = string<br>      insecure = optional(bool, false)<br>      authn = object({<br>        mode   = optional(string, "proxy")<br>        user   = optional(string)<br>        secret = optional(string)<br>      })<br>    })))<br>  })</pre> | n/a | yes |
+| <a name="input_artifact"></a> [artifact](#input\_artifact) | Specify the artifact of deployment.<br><br>Examples:<pre>artifact:<br>  runtime_class: string, optional<br>  refer:<br>    uri: string<br>    insecure: bool, optional<br>    authn:<br>      mode: bearer/basic<br>      user: string, optional<br>      secret: string<br>  command: string, optional<br>  ports: list(number), optional<br>  envs: map(string), optional<br>  volumes: list(string), optional</pre><pre></pre> | <pre>object({<br>    runtime_class = optional(string, "tomcat")<br>    refer = object({<br>      uri      = string<br>      insecure = optional(bool, false)<br>      authn = optional(object({<br>        mode   = optional(string, "bearer")<br>        user   = optional(string)<br>        secret = string<br>      }))<br>    })<br>    command = optional(string)<br>    ports   = optional(list(number))<br>    envs    = optional(map(string))<br>    volumes = optional(list(string))<br>  })</pre> | n/a | yes |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_walrus_project_name"></a> [walrus\_project\_name](#output\_walrus\_project\_name) | The name of project where deployed in Walrus. |
-| <a name="output_walrus_project_id"></a> [walrus\_project\_id](#output\_walrus\_project\_id) | The id of project where deployed in Walrus. |
-| <a name="output_walrus_environment_name"></a> [walrus\_environment\_name](#output\_walrus\_environment\_name) | The name of environment where deployed in Walrus. |
-| <a name="output_walrus_environment_id"></a> [walrus\_environment\_id](#output\_walrus\_environment\_id) | The id of environment where deployed in Walrus. |
-| <a name="output_walrus_resource_name"></a> [walrus\_resource\_name](#output\_walrus\_resource\_name) | The name of resource where deployed in Walrus. |
-| <a name="output_walrus_resource_id"></a> [walrus\_resource\_id](#output\_walrus\_resource\_id) | The id of resource where deployed in Walrus. |
-| <a name="output_submodule"></a> [submodule](#output\_submodule) | The message from submodule. |
+| <a name="output_context"></a> [context](#output\_context) | The input context, a map, which is used for orchestration. |
+| <a name="output_endpoint_internal"></a> [endpoint\_internal](#output\_endpoint\_internal) | The internal endpoints, a string list, which are used for internal access. |
 <!-- END_TF_DOCS -->
 
 ## License

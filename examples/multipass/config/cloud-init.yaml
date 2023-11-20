@@ -1,0 +1,9 @@
+ssh_pwauth: true
+users:
+  - default
+  - name: ansible
+    groups: staff,sudo,wheel,docker
+    lock_passwd: false
+    passwd: $5$rounds=4096$shj749w9ri0MMGtL$WU4oIhMPFW4uk0M9jMVbTaJlQPFEcoADUDsp7QBIM55
+    shell: /bin/bash
+    sudo: ALL=(ALL) NOPASSWD:ALL
