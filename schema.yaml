@@ -14,20 +14,6 @@ components:
           type: object
           description: |
             Receive contextual information. When Walrus deploys, Walrus will inject specific contextual information into this field.
-
-            Examples:
-            ```
-            context:
-              project:
-                name: string
-                id: string
-              environment:
-                name: string
-                id: string
-              resource:
-                name: string
-                id: string
-            ```
           default: {}
           additionalProperties:
             type: object
@@ -35,7 +21,7 @@ components:
               colSpan: 12
           x-walrus-ui:
             colSpan: 12
-            group: Basic
+            group: Advanced
             hidden: true
             order: 1
         infrastructure:
@@ -43,12 +29,6 @@ components:
           type: object
           description: |
             Specify the infrastructure information for deploying.
-
-            Examples:
-            ```
-            infrastructure:
-              runtime_source: string, optional
-            ```
           default: {}
           properties:
             runtime_source:
@@ -60,15 +40,13 @@ components:
               type: string
           x-walrus-ui:
             colSpan: 12
-            group: Basic
+            group: Advanced
             order: 2
         deployment:
           title: Deployment
           type: object
-          description: "Specify the deployment action, like scheduling, progress time
-            and so on.\n\nExamples:\n```\ndeployment:\n  timeout: number, optional\n
-            \ rolling: \n    max_surge: number, optional          # in fraction, i.e.
-            0.25, 0.5, 1\n```\n"
+          description: |
+            Specify the deployment action, like scheduling, progress time and so on.
           properties:
             rolling:
               properties:
@@ -93,31 +71,13 @@ components:
                 order: 1
           x-walrus-ui:
             colSpan: 12
-            group: Basic
+            group: Advanced
             order: 3
         target:
           title: Target
           type: object
           description: |
             Specify the target of deployment.
-
-            Examples:
-            ```
-            target:
-              addresses: list(string)
-              insecure: bool, optional
-              authn:
-                mode: ssh/winrm
-                user: string
-                secert: string
-              proxies:
-              - address: string
-                insecure: bool, optional
-                authn:
-                  mode: proxy/ssh
-                  user: string
-                  secert: string
-            ```
           required:
           - addresses
           - authn
@@ -249,24 +209,6 @@ components:
           type: object
           description: |
             Specify the artifact of deployment.
-
-            Examples:
-            ```
-            artifact:
-              runtime_class: string, optional
-              refer:
-                uri: string
-                insecure: bool, optional
-                authn:
-                  mode: bearer/basic
-                  user: string, optional
-                  secert: string
-              command: string, optional
-              ports: list(number), optional
-              envs: map(string), optional
-              volumes: list(string), optional
-            ```
-            ```
           required:
           - refer
           properties:
@@ -385,3 +327,7 @@ components:
             colSpan: 12
             group: Basic
             order: 5
+      x-walrus-ui:
+        groupOrder:
+        - Basic
+        - Advanced
