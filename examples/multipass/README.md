@@ -17,7 +17,7 @@ $ tf apply -auto-approve
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
-| <a name="requirement_courier"></a> [courier](#requirement\_courier) | >= 0.0.7 |
+| <a name="requirement_courier"></a> [courier](#requirement\_courier) | >= 0.0.8 |
 | <a name="requirement_multipass"></a> [multipass](#requirement\_multipass) | >= 1.4.2 |
 
 ## Providers
@@ -48,5 +48,8 @@ No inputs.
 | Name | Description |
 |------|-------------|
 | <a name="output_context"></a> [context](#output\_context) | n/a |
-| <a name="output_endpoint_internal"></a> [endpoint\_internal](#output\_endpoint\_internal) | n/a |
+| <a name="output_refer"></a> [refer](#output\_refer) | n/a |
+| <a name="output_connection"></a> [connection](#output\_connection) | n/a |
+| <a name="output_connection_without_port"></a> [connection\_without\_port](#output\_connection\_without\_port) | n/a |
+| <a name="output_endpoints"></a> [endpoints](#output\_endpoints) | n/a |
 <!-- END_TF_DOCS -->

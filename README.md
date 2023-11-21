@@ -1,11 +1,11 @@
-# Custom Traditional Deployer
+# Custom Deployer
 
 Terraform module which delivers a Web Application artifact to the related Web Server by traditional deployment, powered by [Seal/Courier](https://registry.terraform.io/providers/seal-io/courier/latest).
 
 ## Usage
 
 ```hcl
-module "traditional-deployer" {
+module "custom-deployer" {
   source = "..."
 
   infrastructure = {
@@ -51,13 +51,13 @@ Please read our [contributing guide](./docs/CONTRIBUTING.md) if you're intereste
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
-| <a name="requirement_courier"></a> [courier](#requirement\_courier) | >= 0.0.7 |
+| <a name="requirement_courier"></a> [courier](#requirement\_courier) | >= 0.0.8 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_courier"></a> [courier](#provider\_courier) | >= 0.0.7 |
+| <a name="provider_courier"></a> [courier](#provider\_courier) | >= 0.0.8 |
 
 ## Modules
 
@@ -87,7 +87,10 @@ No modules.
 | Name | Description |
 |------|-------------|
 | <a name="output_context"></a> [context](#output\_context) | The input context, a map, which is used for orchestration. |
-| <a name="output_endpoint_internal"></a> [endpoint\_internal](#output\_endpoint\_internal) | The internal endpoints, a string list, which are used for internal access. |
+| <a name="output_refer"></a> [refer](#output\_refer) | The refer, a map, which is used for dependencies or collaborations. |
+| <a name="output_connection"></a> [connection](#output\_connection) | The connection, a string combined host and port, might be a comma separated string or a single string. |
+| <a name="output_connection_without_port"></a> [connection\_without\_port](#output\_connection\_without\_port) | The connection without port, a string combined host, might be a comma separated string or a single string. |
+| <a name="output_endpoints"></a> [endpoints](#output\_endpoints) | The endpoints, a list of string combined host and port. |
 <!-- END_TF_DOCS -->
 
 ## License

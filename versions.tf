@@ -4,7 +4,7 @@ terraform {
   required_providers {
     courier = {
       source  = "seal-io/courier"
-      version = ">= 0.0.7"
+      version = ">= 0.0.8"
     }
   }
 }

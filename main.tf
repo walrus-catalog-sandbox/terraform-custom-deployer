@@ -2,7 +2,7 @@ locals {
   progress_timeout = format("%ds", try(var.deployment.timeout != null && var.deployment.timeout > 0, false) ? var.deployment.timeout : 300)
 
   target_addresses = sort(distinct(var.target.addresses))
-  artifact_ports   = try(sort(distinct(var.artifact.ports)), null)
+  artifact_ports   = try(sort(distinct(var.artifact.ports)), [])
 }
 
 #
