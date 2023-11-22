@@ -77,7 +77,7 @@ components:
           title: Target
           type: object
           description: |
-            Specify the target of deployment.
+            Specify the target of deployment, include the address list of target, authentication information and so on.
           required:
           - addresses
           - authn
@@ -203,12 +203,12 @@ components:
           x-walrus-ui:
             colSpan: 12
             group: Basic
-            order: 4
+            order: 5
         artifact:
           title: Artifact
           type: object
           description: |
-            Specify the artifact of deployment.
+            Specify the artifact of deployment, like a docker image, a war file and so on.
           required:
           - refer
           properties:
@@ -302,6 +302,7 @@ components:
               description: |
                 Specify the runtime class for deploying.
                 The supported classes are determined by the corresponding runtime source.
+                See builtin runtime source for more details, https://github.com/seal-io/terraform-provider-courier/tree/main/pkg/runtime/source_builtin.
               default: tomcat
               title: Runtime Class
               type: string
@@ -326,7 +327,7 @@ components:
           x-walrus-ui:
             colSpan: 12
             group: Basic
-            order: 5
+            order: 4
       x-walrus-ui:
         groupOrder:
         - Basic

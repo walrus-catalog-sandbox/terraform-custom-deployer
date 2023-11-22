@@ -74,9 +74,49 @@ EOF
   }
 }
 
+variable "artifact" {
+  description = <<-EOF
+Specify the artifact of deployment, like a docker image, a war file and so on.
+
+Examples:
+```
+artifact:
+  runtime_class: string, optional
+  refer:
+    uri: string
+    insecure: bool, optional
+    authn:
+      mode: bearer/basic
+      user: string, optional
+      secret: string
+  command: string, optional
+  ports: list(number), optional
+  envs: map(string), optional
+  volumes: list(string), optional      # used for docker runtime class
+```
+```
+EOF
+  type = object({
+    runtime_class = optional(string, "tomcat")
+    refer = object({
+      uri      = string
+      insecure = optional(bool, false)
+      authn = optional(object({
+        mode   = optional(string, "bearer")
+        user   = optional(string)
+        secret = string
+      }))
+    })
+    command = optional(string)
+    ports   = optional(list(number))
+    envs    = optional(map(string))
+    volumes = optional(list(string))
+  })
+}
+
 variable "target" {
   description = <<-EOF
-Specify the target of deployment.
+Specify the target of deployment, include the address list of target, authentication information and so on.
 
 Examples:
 ```
@@ -113,45 +153,5 @@ EOF
         secret = optional(string)
       })
     })))
-  })
-}
-
-variable "artifact" {
-  description = <<-EOF
-Specify the artifact of deployment.
-
-Examples:
-```
-artifact:
-  runtime_class: string, optional
-  refer:
-    uri: string
-    insecure: bool, optional
-    authn:
-      mode: bearer/basic
-      user: string, optional
-      secret: string
-  command: string, optional
-  ports: list(number), optional
-  envs: map(string), optional
-  volumes: list(string), optional      # used for docker runtime class
-```
-```
-EOF
-  type = object({
-    runtime_class = optional(string, "tomcat")
-    refer = object({
-      uri      = string
-      insecure = optional(bool, false)
-      authn = optional(object({
-        mode   = optional(string, "bearer")
-        user   = optional(string)
-        secret = string
-      }))
-    })
-    command = optional(string)
-    ports   = optional(list(number))
-    envs    = optional(map(string))
-    volumes = optional(list(string))
   })
 }
