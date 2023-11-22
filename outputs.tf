@@ -21,8 +21,9 @@ output "refer" {
   value = {
     schema = "custom:deployer"
     params = {
-      hosts = local.hosts
-      ports = length(local.artifact_ports) > 0 ? local.artifact_ports : []
+      selector = {}
+      hosts    = local.hosts
+      ports    = length(local.artifact_ports) > 0 ? local.artifact_ports : []
     }
   }
 }
@@ -36,9 +37,14 @@ output "connection" {
   value       = join(",", local.endpoints)
 }
 
-output "connection_without_port" {
-  description = "The connection without port, a string combined host, might be a comma separated string or a single string."
+output "address" {
+  description = "The address, a string only has host, might be a comma separated string or a single string."
   value       = join(",", local.hosts)
+}
+
+output "ports" {
+  description = "The port list of the service."
+  value       = local.artifact_ports
 }
 
 ## UI display
