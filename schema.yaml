@@ -15,6 +15,7 @@ components:
           description: |
             Receive contextual information. When Walrus deploys, Walrus will inject specific contextual information into this field.
           default: {}
+          nullable: true
           additionalProperties:
             type: object
             x-walrus-ui:
@@ -30,6 +31,7 @@ components:
           description: |
             Specify the infrastructure information for deploying.
           default: {}
+          nullable: true
           properties:
             runtime_source:
               description: | 
@@ -47,13 +49,22 @@ components:
           type: object
           description: |
             Specify the deployment action, like scheduling, progress time and so on.
+          default:
+            timeout: 300
+            rolling:
+              max_surge: 0.25
+          nullable: true
           properties:
             rolling:
+              nullable: true
               properties:
                 max_surge:
                   description: |
                     The maximum percent of targets to deploy at once. The value must be range between 0 to 1.
                   default: 0.25
+                  nullable: true
+                  minimum: 0.1
+                  maximum: 1
                   title: Max Surge
                   type: number
               title: Rolling
@@ -65,6 +76,7 @@ components:
               description: | 
                 Specify the maximum time in seconds for a deployment to make progress before it is considered to be failed.
               default: 300
+              nullable: true
               title: Timeout
               type: number
               x-walrus-ui:
@@ -120,6 +132,7 @@ components:
                   x-walrus-ui:
                     order: 2
               required:
+              - mode
               - secert
               - user
               title: Authn
@@ -131,6 +144,7 @@ components:
               description: |
                 Specify whether to skip TLS/Hostname verification when connecting to target.
               default: false
+              nullable: true
               title: Insecure
               type: boolean
               x-walrus-ui:
@@ -138,6 +152,7 @@ components:
             proxies:
               description: |
                 Configure bastion hosts or http proxies here.
+              nullable: true
               items:
                 properties:
                   address:
@@ -154,7 +169,6 @@ components:
                       mode:
                         description: |
                           Specify the authentication mode for connecting to proxy, select from proxy or ssh.
-                        default: proxy
                         title: Mode
                         type: string
                         enum:
@@ -165,6 +179,7 @@ components:
                       secert:
                         description: |
                           Specify the secert for connecting to proxy, either password or private key.
+                        nullable: true
                         title: Secert
                         type: string
                         x-walrus-ui:
@@ -172,11 +187,14 @@ components:
                       user:
                         description: |
                           Specify the user for connecting to proxy.
+                        nullable: true
                         title: User
                         type: string
                         x-walrus-ui:
                           order: 2
                     title: Authn
+                    required:
+                    - mode
                     type: object
                     x-walrus-ui:
                       colSpan: 12
@@ -185,6 +203,7 @@ components:
                     description: |
                       Specify whether to skip TLS/Hostname verification when connecting to proxy.
                     default: false
+                    nullable: true
                     title: Insecure
                     type: boolean
                     x-walrus-ui:
@@ -211,17 +230,20 @@ components:
             Specify the artifact of deployment, like a docker image, a war file and so on.
           required:
           - refer
+          - runtime_class
           properties:
             command:
               description: |
                 Specify the command to execute.
               title: Command
               type: string
+              nullable: true
               x-walrus-ui:
                 order: 3
             envs:
               description: |
                 Specify the environment variables.
+              nullable: true
               additionalProperties:
                 type: string
               title: Envs
@@ -232,6 +254,7 @@ components:
             ports:
               description: |
                 Specify the ports.
+              nullable: true
               items:
                 type: number
               title: Ports
@@ -244,6 +267,7 @@ components:
                 authn:
                   description: |
                     Specify the authentication information for pulling artifact.
+                  nullable: true
                   properties:
                     mode:
                       description: |
@@ -266,12 +290,14 @@ components:
                     user:
                       description: |
                         Specify the user for pulling artifact.
+                      nullable: true
                       title: User
                       type: string
                       x-walrus-ui:
                         order: 2
                         showIf: mode=basic
                   required:
+                  - mode
                   - secert
                   title: Authn
                   type: object
@@ -282,6 +308,7 @@ components:
                   description: |
                     Specify whether to skip TLS/Hostname verification when pulling artifact.
                   default: false
+                  nullable: true
                   title: Insecure
                   type: boolean
                   x-walrus-ui:
@@ -316,6 +343,7 @@ components:
             volumes:
               description: |
                 Specify the volumes.
+              nullable: true
               items:
                 type: string
               title: Volumes

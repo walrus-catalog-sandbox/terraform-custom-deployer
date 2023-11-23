@@ -148,7 +148,7 @@ EOF
       address  = string
       insecure = optional(bool, false)
       authn = object({
-        mode   = optional(string, "proxy")
+        mode   = string
         user   = optional(string)
         secret = optional(string)
       })
