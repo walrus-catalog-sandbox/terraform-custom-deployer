@@ -48,9 +48,9 @@ data "courier_artifact" "artifact" {
   refer = {
     uri      = var.artifact.refer.uri
     insecure = try(var.artifact.refer.insecure, false)
-    authn = try(var.artifact.refer.authn != null, false) ? {
-      type   = try(var.artifact.refer.authn.mode, "bearer")
-      user   = try(var.artifact.refer.authn.user, null)
+    authn = try(var.artifact.refer.authn != null && var.artifact.refer.authn.mode != "none", false) ? {
+      type   = var.artifact.refer.authn.mode
+      user   = var.artifact.refer.authn.user
       secret = var.artifact.refer.authn.secret
     } : null
   }

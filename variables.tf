@@ -86,9 +86,9 @@ artifact:
     uri: string
     insecure: bool, optional
     authn:
-      mode: bearer/basic
+      mode: none/bearer/basic
       user: string, optional
-      secret: string
+      secret: string, optional
   command: string, optional
   ports: list(number), optional
   envs: map(string), optional
@@ -102,9 +102,9 @@ EOF
       uri      = string
       insecure = optional(bool, false)
       authn = optional(object({
-        mode   = optional(string, "bearer")
+        mode   = optional(string, "none")
         user   = optional(string)
-        secret = string
+        secret = optional(string)
       }))
     })
     command = optional(string)

@@ -229,8 +229,8 @@ components:
           description: |
             Specify the artifact of deployment, like a docker image, a war file and so on.
           required:
-          - refer
           - runtime_class
+          - refer
           properties:
             command:
               description: |
@@ -271,11 +271,12 @@ components:
                   properties:
                     mode:
                       description: |
-                        Specify the authentication mode for pulling artifact, select from basic or bearer.
-                      default: bearer
+                        Specify the authentication mode for pulling artifact, select from none, basic or bearer.
+                      default: none
                       title: Mode
                       type: string
                       enum:
+                      - none
                       - bearer
                       - basic
                       x-walrus-ui:
@@ -287,6 +288,7 @@ components:
                       type: string
                       x-walrus-ui:
                         order: 3
+                        showIf: mode!=none
                     user:
                       description: |
                         Specify the user for pulling artifact.
@@ -298,7 +300,6 @@ components:
                         showIf: mode=basic
                   required:
                   - mode
-                  - secert
                   title: Authn
                   type: object
                   x-walrus-ui:
