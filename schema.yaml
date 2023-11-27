@@ -117,10 +117,10 @@ components:
                   - winrm
                   x-walrus-ui:
                     order: 1
-                secert:
+                secret:
                   description: |
-                    Specify the secert for connecting to target, either password or private key.
-                  title: Secert
+                    Specify the secret for connecting to target, either password or private key.
+                  title: Secret
                   type: string
                   x-walrus-ui:
                     order: 3
@@ -133,7 +133,7 @@ components:
                     order: 2
               required:
               - mode
-              - secert
+              - secret
               - user
               title: Authn
               type: object
@@ -176,11 +176,11 @@ components:
                         - ssh
                         x-walrus-ui:
                           order: 1
-                      secert:
+                      secret:
                         description: |
-                          Specify the secert for connecting to proxy, either password or private key.
+                          Specify the secret for connecting to proxy, either password or private key.
                         nullable: true
-                        title: Secert
+                        title: secret
                         type: string
                         x-walrus-ui:
                           order: 3
@@ -281,10 +281,10 @@ components:
                       - basic
                       x-walrus-ui:
                         order: 1
-                    secert:
+                    secret:
                       description: |
                         Specify the secret for pulling artifact, either password or token.
-                      title: Secert
+                      title: Secret
                       type: string
                       x-walrus-ui:
                         order: 3
