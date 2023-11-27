@@ -337,7 +337,7 @@ components:
               enum:
               - tomcat
               - docker
-              - oepnjdk
+              - openjdk
               x-walrus-ui:
                 colSpan: 12
                 order: 1
