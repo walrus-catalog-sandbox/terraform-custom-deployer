@@ -1,5 +1,7 @@
 locals {
-  hosts = local.target_addresses
+  hosts = [
+    for c in local.target_addresses : split(":", c)[0]
+  ]
 
   endpoints = length(local.artifact_ports) > 0 ? flatten([
     for c in local.hosts : formatlist("%s:%d", c, local.artifact_ports)
