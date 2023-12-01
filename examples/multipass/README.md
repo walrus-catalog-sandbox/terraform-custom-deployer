@@ -17,7 +17,7 @@ $ tf apply -auto-approve
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
-| <a name="requirement_courier"></a> [courier](#requirement\_courier) | >= 0.0.8 |
+| <a name="requirement_courier"></a> [courier](#requirement\_courier) | >= 0.0.9 |
 | <a name="requirement_multipass"></a> [multipass](#requirement\_multipass) | >= 1.4.2 |
 
 ## Providers

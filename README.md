@@ -51,13 +51,13 @@ Please read our [contributing guide](./docs/CONTRIBUTING.md) if you're intereste
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
-| <a name="requirement_courier"></a> [courier](#requirement\_courier) | >= 0.0.8 |
+| <a name="requirement_courier"></a> [courier](#requirement\_courier) | >= 0.0.9 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_courier"></a> [courier](#provider\_courier) | >= 0.0.8 |
+| <a name="provider_courier"></a> [courier](#provider\_courier) | >= 0.0.9 |
 
 ## Modules
 
