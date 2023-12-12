@@ -4,10 +4,10 @@ info:
 components:
   schemas:
     variables:
+      type: object
       required:
       - artifact
       - target
-      type: object
       properties:
         context:
           title: Context
@@ -34,12 +34,15 @@ components:
           nullable: true
           properties:
             runtime_source:
-              description: | 
+              description: |
                 Specify the runtime source for deploying.
                 The runtime source is a collection of script files, which implements the courier's interface.
                 More details, please refer to https://registry.terraform.io/providers/seal-io/courier/latest/docs/data-sources/runtime#source.
+              nullable: true
               title: Runtime Source
               type: string
+              x-walrus-ui:
+                order: 1
           x-walrus-ui:
             colSpan: 12
             group: Advanced
@@ -50,32 +53,34 @@ components:
           description: |
             Specify the deployment action, like scheduling, progress time and so on.
           default:
-            timeout: 300
             rolling:
               max_surge: 0.25
+            timeout: 300
           nullable: true
           properties:
             rolling:
               nullable: true
               properties:
                 max_surge:
+                  default: 0.25
                   description: |
                     The maximum percent of targets to deploy at once. The value must be range between 0 to 1.
-                  default: 0.25
-                  nullable: true
-                  minimum: 0.1
                   maximum: 1
+                  minimum: 0.1
+                  nullable: true
                   title: Max Surge
                   type: number
+                  x-walrus-ui:
+                    order: 1
               title: Rolling
               type: object
               x-walrus-ui:
                 colSpan: 12
                 order: 2
             timeout:
-              description: | 
-                Specify the maximum time in seconds for a deployment to make progress before it is considered to be failed.
               default: 300
+              description: |
+                Specify the maximum time in seconds for a deployment to make progress before it is considered to be failed.
               nullable: true
               title: Timeout
               type: number
@@ -85,150 +90,6 @@ components:
             colSpan: 12
             group: Advanced
             order: 3
-        target:
-          title: Target
-          type: object
-          description: |
-            Specify the target of deployment, include the address list of target, authentication information and so on.
-          required:
-          - addresses
-          - authn
-          properties:
-            addresses:
-              description: | 
-                Specify the address list of target, which must be reachable.
-              items:
-                type: string
-              title: Addresses
-              type: array
-              x-walrus-ui:
-                colSpan: 12
-                order: 1
-            authn:
-              properties:
-                mode:
-                  description: |
-                    Specify the authentication mode for connecting to target, select from ssh or winrm.
-                  default: ssh
-                  title: Mode
-                  type: string
-                  enum:
-                  - ssh
-                  - winrm
-                  x-walrus-ui:
-                    order: 1
-                secret:
-                  description: |
-                    Specify the secret for connecting to target, either password or private key.
-                  title: Secret
-                  type: string
-                  format: password
-                  writeOnly: true
-                  x-walrus-ui:
-                    order: 3
-                    widget: TextArea
-                user:
-                  description: |
-                    Specify the user for connecting to target.
-                  title: User
-                  type: string
-                  x-walrus-ui:
-                    order: 2
-              required:
-              - mode
-              - secret
-              - user
-              title: Authn
-              type: object
-              x-walrus-ui:
-                colSpan: 12
-                order: 3
-            insecure:
-              description: |
-                Specify whether to skip TLS/Hostname verification when connecting to target.
-              default: false
-              nullable: true
-              title: Insecure
-              type: boolean
-              x-walrus-ui:
-                order: 2
-            proxies:
-              description: |
-                Configure bastion hosts or http proxies here.
-              nullable: true
-              items:
-                properties:
-                  address:
-                    description: |
-                      Specify the address of proxy, which must be reachable.
-                    title: Address
-                    type: string
-                    x-walrus-ui:
-                      order: 1
-                  authn:
-                    description: |
-                      Specify the authentication information for connecting to proxy.
-                    properties:
-                      mode:
-                        description: |
-                          Specify the authentication mode for connecting to proxy, select from proxy or ssh.
-                        title: Mode
-                        type: string
-                        enum:
-                        - proxy
-                        - ssh
-                        x-walrus-ui:
-                          order: 1
-                      secret:
-                        description: |
-                          Specify the secret for connecting to proxy, either password or private key.
-                        nullable: true
-                        title: Secret
-                        format: password
-                        writeOnly: true
-                        type: string
-                        x-walrus-ui:
-                          order: 3
-                          widget: TextArea
-                      user:
-                        description: |
-                          Specify the user for connecting to proxy.
-                        nullable: true
-                        title: User
-                        type: string
-                        x-walrus-ui:
-                          order: 2
-                    title: Authn
-                    required:
-                    - mode
-                    type: object
-                    x-walrus-ui:
-                      colSpan: 12
-                      order: 3
-                  insecure:
-                    description: |
-                      Specify whether to skip TLS/Hostname verification when connecting to proxy.
-                    default: false
-                    nullable: true
-                    title: Insecure
-                    type: boolean
-                    x-walrus-ui:
-                      order: 2
-                required:
-                - address
-                - authn
-                type: object
-                x-walrus-ui:
-                  colSpan: 12
-              title: Proxies
-              type: array
-              x-walrus-ui:
-                colSpan: 12
-                order: 4
-          x-walrus-ui:
-            colSpan: 12
-            group: Basic
-            order: 5
         artifact:
           title: Artifact
           type: object
@@ -241,17 +102,17 @@ components:
             command:
               description: |
                 Specify the command to execute.
+              nullable: true
               title: Command
               type: string
-              nullable: true
               x-walrus-ui:
                 order: 3
             envs:
+              additionalProperties:
+                type: string
               description: |
                 Specify the environment variables.
               nullable: true
-              additionalProperties:
-                type: string
               title: Envs
               type: object
               x-walrus-ui:
@@ -260,9 +121,9 @@ components:
             ports:
               description: |
                 Specify the ports.
-              nullable: true
               items:
                 type: number
+              nullable: true
               title: Ports
               type: array
               x-walrus-ui:
@@ -276,23 +137,25 @@ components:
                   nullable: true
                   properties:
                     mode:
+                      default: none
                       description: |
                         Specify the authentication mode for pulling artifact, select from none, basic or bearer.
-                      default: none
-                      title: Mode
-                      type: string
                       enum:
                       - none
                       - bearer
                       - basic
+                      nullable: true
+                      title: Mode
+                      type: string
                       x-walrus-ui:
                         order: 1
                     secret:
                       description: |
                         Specify the secret for pulling artifact, either password or token.
+                      format: password
+                      nullable: true
                       title: Secret
                       type: string
-                      format: password
                       writeOnly: true
                       x-walrus-ui:
                         order: 3
@@ -315,9 +178,9 @@ components:
                     colSpan: 12
                     order: 3
                 insecure:
+                  default: false
                   description: |
                     Specify whether to skip TLS/Hostname verification when pulling artifact.
-                  default: false
                   nullable: true
                   title: Insecure
                   type: boolean
@@ -336,26 +199,27 @@ components:
                 colSpan: 12
                 order: 2
             runtime_class:
+              default: tomcat
               description: |
                 Specify the runtime class for deploying.
                 The supported classes are determined by the corresponding runtime source.
                 See builtin runtime source for more details, https://github.com/seal-io/terraform-provider-courier/tree/main/pkg/runtime/source_builtin.
-              default: tomcat
-              title: Runtime Class
-              type: string
               enum:
               - tomcat
               - docker
               - openjdk
+              nullable: true
+              title: Runtime Class
+              type: string
               x-walrus-ui:
                 colSpan: 12
                 order: 1
             volumes:
               description: |
                 Specify the volumes.
-              nullable: true
               items:
                 type: string
+              nullable: true
               title: Volumes
               type: array
               x-walrus-ui:
@@ -366,6 +230,151 @@ components:
             colSpan: 12
             group: Basic
             order: 4
+        target:
+          title: Target
+          type: object
+          description: |
+            Specify the target of deployment, include the address list of target, authentication information and so on.
+          required:
+          - addresses
+          - authn
+          properties:
+            addresses:
+              description: |
+                Specify the address list of target, which must be reachable.
+              items:
+                type: string
+              title: Addresses
+              type: array
+              x-walrus-ui:
+                colSpan: 12
+                order: 1
+            authn:
+              properties:
+                mode:
+                  default: ssh
+                  description: |
+                    Specify the authentication mode for connecting to target, select from ssh or winrm.
+                  enum:
+                  - ssh
+                  - winrm
+                  nullable: true
+                  title: Mode
+                  type: string
+                  x-walrus-ui:
+                    order: 1
+                secret:
+                  description: |
+                    Specify the secret for connecting to target, either password or private key.
+                  format: password
+                  title: Secret
+                  type: string
+                  writeOnly: true
+                  x-walrus-ui:
+                    order: 3
+                    widget: TextArea
+                user:
+                  description: |
+                    Specify the user for connecting to target.
+                  title: User
+                  type: string
+                  x-walrus-ui:
+                    order: 2
+              required:
+              - mode
+              - secret
+              - user
+              title: Authn
+              type: object
+              x-walrus-ui:
+                colSpan: 12
+                order: 3
+            insecure:
+              default: false
+              description: |
+                Specify whether to skip TLS/Hostname verification when connecting to target.
+              nullable: true
+              title: Insecure
+              type: boolean
+              x-walrus-ui:
+                order: 2
+            proxies:
+              description: |
+                Configure bastion hosts or http proxies here.
+              items:
+                properties:
+                  address:
+                    description: |
+                      Specify the address of proxy, which must be reachable.
+                    title: Address
+                    type: string
+                    x-walrus-ui:
+                      order: 1
+                  authn:
+                    description: |
+                      Specify the authentication information for connecting to proxy.
+                    properties:
+                      mode:
+                        description: |
+                          Specify the authentication mode for connecting to proxy, select from proxy or ssh.
+                        enum:
+                        - proxy
+                        - ssh
+                        title: Mode
+                        type: string
+                        x-walrus-ui:
+                          order: 1
+                      secret:
+                        description: |
+                          Specify the secret for connecting to proxy, either password or private key.
+                        format: password
+                        nullable: true
+                        title: Secret
+                        type: string
+                        writeOnly: true
+                        x-walrus-ui:
+                          order: 3
+                          widget: TextArea
+                      user:
+                        description: |
+                          Specify the user for connecting to proxy.
+                        nullable: true
+                        title: User
+                        type: string
+                        x-walrus-ui:
+                          order: 2
+                    required:
+                    - mode
+                    title: Authn
+                    type: object
+                    x-walrus-ui:
+                      colSpan: 12
+                      order: 3
+                  insecure:
+                    default: false
+                    description: |
+                      Specify whether to skip TLS/Hostname verification when connecting to proxy.
+                    nullable: true
+                    title: Insecure
+                    type: boolean
+                    x-walrus-ui:
+                      order: 2
+                required:
+                - address
+                - authn
+                type: object
+                x-walrus-ui:
+                  colSpan: 12
+              nullable: true
+              title: Proxies
+              type: array
+              x-walrus-ui:
+                colSpan: 12
+                order: 4
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 5
       x-walrus-ui:
         groupOrder:
         - Basic
