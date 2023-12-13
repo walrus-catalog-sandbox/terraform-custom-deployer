@@ -96,7 +96,6 @@ components:
           description: |
             Specify the artifact of deployment, like a docker image, a war file and so on.
           required:
-          - runtime_class
           - refer
           properties:
             command:
@@ -170,8 +169,6 @@ components:
                       x-walrus-ui:
                         order: 2
                         showIf: mode=basic
-                  required:
-                  - mode
                   title: Authn
                   type: object
                   x-walrus-ui:
@@ -281,7 +278,6 @@ components:
                   x-walrus-ui:
                     order: 2
               required:
-              - mode
               - secret
               - user
               title: Authn
