@@ -15,14 +15,12 @@ components:
           description: |
             Specify the infrastructure information for deploying.
           default: {}
-          nullable: true
           properties:
             runtime_source:
               description: |
                 Specify the runtime source for deploying.
                 The runtime source is a collection of script files, which implements the courier's interface.
                 More details, please refer to https://registry.terraform.io/providers/seal-io/courier/latest/docs/data-sources/runtime#source.
-              nullable: true
               title: Runtime Source
               type: string
               x-walrus-ui:
@@ -40,10 +38,8 @@ components:
             rolling:
               max_surge: 0.25
             timeout: 300
-          nullable: true
           properties:
             rolling:
-              nullable: true
               properties:
                 max_surge:
                   default: 0.25
@@ -51,7 +47,6 @@ components:
                     The maximum percent of targets to deploy at once. The value must be range between 0 to 1.
                   maximum: 1
                   minimum: 0.1
-                  nullable: true
                   title: Max Surge
                   type: number
                   x-walrus-ui:
@@ -65,7 +60,6 @@ components:
               default: 300
               description: |
                 Specify the maximum time in seconds for a deployment to make progress before it is considered to be failed.
-              nullable: true
               title: Timeout
               type: number
               x-walrus-ui:
@@ -85,7 +79,6 @@ components:
             command:
               description: |
                 Specify the command to execute.
-              nullable: true
               title: Command
               type: string
               x-walrus-ui:
@@ -95,7 +88,6 @@ components:
                 type: string
               description: |
                 Specify the environment variables.
-              nullable: true
               title: Envs
               type: object
               x-walrus-ui:
@@ -106,7 +98,6 @@ components:
                 Specify the ports.
               items:
                 type: number
-              nullable: true
               title: Ports
               type: array
               x-walrus-ui:
@@ -117,7 +108,6 @@ components:
                 authn:
                   description: |
                     Specify the authentication information for pulling artifact.
-                  nullable: true
                   properties:
                     mode:
                       default: none
@@ -127,7 +117,6 @@ components:
                       - none
                       - bearer
                       - basic
-                      nullable: true
                       title: Mode
                       type: string
                       x-walrus-ui:
@@ -136,7 +125,6 @@ components:
                       description: |
                         Specify the secret for pulling artifact, either password or token.
                       format: password
-                      nullable: true
                       title: Secret
                       type: string
                       writeOnly: true
@@ -147,7 +135,6 @@ components:
                     user:
                       description: |
                         Specify the user for pulling artifact.
-                      nullable: true
                       title: User
                       type: string
                       x-walrus-ui:
@@ -162,7 +149,6 @@ components:
                   default: false
                   description: |
                     Specify whether to skip TLS/Hostname verification when pulling artifact.
-                  nullable: true
                   title: Insecure
                   type: boolean
                   x-walrus-ui:
@@ -189,7 +175,6 @@ components:
               - tomcat
               - docker
               - openjdk
-              nullable: true
               title: Runtime Class
               type: string
               x-walrus-ui:
@@ -200,7 +185,6 @@ components:
                 Specify the volumes.
               items:
                 type: string
-              nullable: true
               title: Volumes
               type: array
               x-walrus-ui:
@@ -239,7 +223,6 @@ components:
                   enum:
                   - ssh
                   - winrm
-                  nullable: true
                   title: Mode
                   type: string
                   x-walrus-ui:
@@ -273,7 +256,6 @@ components:
               default: false
               description: |
                 Specify whether to skip TLS/Hostname verification when connecting to target.
-              nullable: true
               title: Insecure
               type: boolean
               x-walrus-ui:
@@ -308,7 +290,6 @@ components:
                         description: |
                           Specify the secret for connecting to proxy, either password or private key.
                         format: password
-                        nullable: true
                         title: Secret
                         type: string
                         writeOnly: true
@@ -318,7 +299,6 @@ components:
                       user:
                         description: |
                           Specify the user for connecting to proxy.
-                        nullable: true
                         title: User
                         type: string
                         x-walrus-ui:
@@ -334,7 +314,6 @@ components:
                     default: false
                     description: |
                       Specify whether to skip TLS/Hostname verification when connecting to proxy.
-                    nullable: true
                     title: Insecure
                     type: boolean
                     x-walrus-ui:
@@ -345,7 +324,6 @@ components:
                 type: object
                 x-walrus-ui:
                   colSpan: 12
-              nullable: true
               title: Proxies
               type: array
               x-walrus-ui:
